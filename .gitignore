@@ -1,3 +1,9 @@
+# Visual Studio
+*.vs
+
+# Backup Files
+*~
+
 # Prerequisites
 *.d
 
