@@ -5,8 +5,8 @@
 const static int DEFAULT_RENDERING_DRIVER = -1;
 
 Renderer::Renderer(
-    const uint32_t width,
-    const uint32_t height,
+    const uint16_t width,
+    const uint16_t height,
     SDL_Window* window,
     SDL_Renderer* renderer,
     SDL_Texture* texture
@@ -30,7 +30,7 @@ void Renderer::lock() {
     int result = SDL_LockTexture(
             m_texture,
             nullptr, // we lock the entire texture
-            &m_pixels,
+            reinterpret_cast<void**>(&m_pixels),
             &pitch /* pitch will be stored here. as of now - it is height,
                      therefore it's not used */
         );
@@ -47,13 +47,12 @@ void Renderer::unlock() {
     m_pixels = nullptr;
 }
 
-void Renderer::fill_pixel(uint32_t x, uint32_t y, uint32_t color) {
+void Renderer::fill_pixel(uint16_t x, uint16_t y, uint32_t color) {
     /*
      * Transforming from SDL coordinate system (x left to right, y up to down)
      * to the normal one (x left to right, y down to up)
      */
-    y = m_height - y;
-    static_cast<uint32_t*>(m_pixels)[y * m_height + x] = color;
+    m_pixels[y * m_height + x] = color;
 }
 
 void Renderer::display() {
@@ -65,8 +64,8 @@ void Renderer::display() {
 
 Renderer create_renderer(
     const std::string& title,
-    const uint32_t width,
-    const uint32_t height
+    const uint16_t width,
+    const uint16_t height
 ) {
     SDL_Window* window(SDL_CreateWindow(
                 title.data(),
