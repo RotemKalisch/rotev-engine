@@ -1,9 +1,11 @@
 #pragma once
 
 #include <array>
+#include <vector>
 #include <memory>
 
 #include "point.h"
+#include "pixel.h"
 
 struct Triangle {
 public:
@@ -11,7 +13,11 @@ public:
 
     Triangle(std::shared_ptr<const Point> p1, std::shared_ptr<const Point> p2,
             std::shared_ptr<const Point> p3);
+
     std::shared_ptr<const Point> operator[](int index);
+
+    std::vector<Pixel> pixels() const;
+
 
 private:
     std::array<std::shared_ptr<const Point>, VERTICES> vertices;
