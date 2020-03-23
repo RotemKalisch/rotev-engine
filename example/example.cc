@@ -10,5 +10,4 @@ int main() {
     for (int i = 0; i < Triangle::VERTICES; ++i) {
         std::cout << *(triangle[i]) << std::endl;
     }
-    std::cout << triangle.pixels()[0] << std::endl;
 }

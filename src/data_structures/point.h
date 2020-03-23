@@ -5,6 +5,8 @@
 struct Point {
 public:
     Point(double x, double y, double z);
+    /// Sometimes we only care for 2d points
+    Point(double x, double y);
     double x;
     double y;
     double z;
