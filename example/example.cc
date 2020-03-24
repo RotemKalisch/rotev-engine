@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cassert>
 
 #include <data_structures/triangle.h>
 #include <renderer/renderer.h>
@@ -13,7 +12,6 @@ int main() {
     Renderer renderer = create_renderer("example", 1920 / 2, 984 / 2);
     renderer.lock();
     for (Pixel& pixel : pixels) {
-        assert (pixel.x <= 100);
         renderer.fill_pixel(pixel.x, pixel.y, 0xFFFFFFFF);
     }
     renderer.unlock();
