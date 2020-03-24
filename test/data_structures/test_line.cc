@@ -30,3 +30,17 @@ TEST(Line, correctness) {
     EXPECT_DOUBLES_EQ(2.5, line.get_x(5.0));
 }
 
+TEST(Line, vertical) {
+    Point p1(1.0, 0.0);
+    Point p2(1.0, 1.0);
+    Line line(p1, p2);
+    EXPECT_DOUBLES_EQ(1.0, line.get_x(17.6));
+}
+
+TEST(Line, horizontal) {
+    Point p1(0.0, 1.0);
+    Point p2(1.0, 1.0);
+    Line line(p1, p2);
+    EXPECT_DOUBLES_EQ(1.0, line.get_x(17.6));
+}
+

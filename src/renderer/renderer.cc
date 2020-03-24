@@ -52,7 +52,7 @@ void Renderer::fill_pixel(uint16_t x, uint16_t y, uint32_t color) {
      * Transforming from SDL coordinate system (x left to right, y up to down)
      * to the normal one (x left to right, y down to up)
      */
-    m_pixels[y * m_height + x] = color;
+    m_pixels[y * m_width + x] = color;
 }
 
 void Renderer::display() {

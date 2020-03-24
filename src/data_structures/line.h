@@ -10,8 +10,8 @@
 struct Line {
 public:
     Line(const Point p1, const Point p2);
-    double get_x(double y);
-    double get_y(double x);
+    double get_x(double y) const;
+    double get_y(double x) const;
 
 private:
     const Point m_reference;
