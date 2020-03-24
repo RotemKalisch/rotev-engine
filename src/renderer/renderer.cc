@@ -64,16 +64,21 @@ void Renderer::display() {
 
 Renderer create_renderer(
     const std::string& title,
-    const uint16_t width,
-    const uint16_t height
+    uint16_t width,
+    uint16_t height,
+    bool fullscreen_mode
 ) {
+    uint32_t flags = SDL_WINDOW_SHOWN;
+    if (fullscreen_mode) {
+        flags |= SDL_WINDOW_FULLSCREEN;
+    }
     SDL_Window* window(SDL_CreateWindow(
                 title.data(),
                 SDL_WINDOWPOS_UNDEFINED, // as of now i dont care about initial
                 SDL_WINDOWPOS_UNDEFINED, // position of the window.
                 width,
                 height,
-                SDL_WINDOW_SHOWN
+                flags
                 )
             );
 

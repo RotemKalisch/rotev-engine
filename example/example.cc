@@ -9,7 +9,7 @@ int main() {
     std::shared_ptr<Point> p3 = std::make_shared<Point>(100.0, 0.0, 0.0);
     Triangle triangle(p1, p2, p3);
     std::vector<Pixel> pixels = triangle.pixels();
-    Renderer renderer = create_renderer("example", 1920 / 2, 984 / 2);
+    Renderer renderer = create_renderer("example", 1920, 984, true);
     renderer.lock();
     for (Pixel& pixel : pixels) {
         renderer.fill_pixel(pixel.x, pixel.y, 0xFFFFFFFF);
