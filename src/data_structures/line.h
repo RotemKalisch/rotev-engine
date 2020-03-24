@@ -15,5 +15,6 @@ public:
 
 private:
     const Point m_reference;
-    double m_slope_inv;
+    double m_slope;
+    double m_slope_inv; // overcoming "inf" cases
 };

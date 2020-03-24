@@ -16,6 +16,10 @@ public:
 
     std::shared_ptr<const Point> operator[](int index);
 
+    /**
+     * Function returns all pixels inside the triangle using scan convention.
+     * Complexity is o(|pixels|)
+     */
     std::vector<Pixel> pixels() const;
 
 private:

@@ -25,26 +25,19 @@ std::vector<Pixel> Triangle::pixels() const {
     Pixel top_pixel(vertices_sorted[0]);
     Pixel middle_pixel(vertices_sorted[1]);
     Pixel bottom_pixel(vertices_sorted[2]);
-    Line* left_upper = &longest;
-    Line* left_lower = &longest;
-    Line* right_upper = &upper;
-    Line* right_lower = &lower;
+
+    std::array<Line*, 2> left_bounds = {&longest, &longest};
+    std::array<Line*, 2> right_bounds = {&upper, &lower};
 
     if (bottom_pixel.x > middle_pixel.x) {
-        left_upper = &upper;
-        left_lower = &lower;
-        right_upper = &longest;
-        right_lower = &longest;
+        std::swap(left_bounds, right_bounds);
     }
 
-    for (uint16_t y = top_pixel.y; y < middle_pixel.y; ++y) {
-        for (uint16_t x = std::round(left_upper->get_x(y)); x < std::round(right_upper->get_x(y)); ++x) {
-            pixels.push_back(Pixel(x, y));
-        }
-    }
-    for (uint16_t y = middle_pixel.y; y < bottom_pixel.y; ++y) {
-        for (uint16_t x = std::round(left_lower->get_x(y)); x < std::round(right_lower->get_x(y)); ++x) {
-            pixels.push_back(Pixel(x, y));
+    for (uint8_t i = 0; i < 2; ++i) {
+        for (uint16_t y = vertices_sorted[i].y; y < vertices_sorted[i+1].y; ++y) {
+            for (uint16_t x = std::round(left_bounds[i]->get_x(y)); x < std::round(right_bounds[i]->get_x(y)); ++x) {
+                pixels.push_back(Pixel(x, y));
+            }
         }
     }
     return pixels;

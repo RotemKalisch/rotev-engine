@@ -8,6 +8,7 @@ struct Pixel {
 public:
     Pixel(uint16_t x, uint16_t y);
     Pixel(const Point& p);
+    bool operator==(const Pixel& other) const;
     uint16_t x;
     uint16_t y;
 };
