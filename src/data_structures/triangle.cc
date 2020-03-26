@@ -34,9 +34,9 @@ std::vector<Pixel> Triangle::pixels() const {
     }
 
     for (uint8_t i = 0; i < 2; ++i) {
-        for (uint16_t y = vertices_sorted[i].get().y; y < vertices_sorted[i+1].get().y; ++y) {
+        for (screen_t y = vertices_sorted[i].get().y; y < vertices_sorted[i+1].get().y; ++y) {
             for (
-                uint16_t x = std::round(left_bounds[i].get().get_x(y));
+                screen_t x = std::round(left_bounds[i].get().get_x(y));
                 x < std::round(right_bounds[i].get().get_x(y));
                 ++x
             ) {

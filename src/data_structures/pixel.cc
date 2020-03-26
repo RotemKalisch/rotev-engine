@@ -2,7 +2,7 @@
 
 #include "pixel.h"
 
-Pixel::Pixel(uint16_t x, uint16_t y) : x(x), y(y) {}
+Pixel::Pixel(screen_t x, screen_t y) : x(x), y(y) {}
 
 Pixel::Pixel(const Point& p) : x(std::round(p.x)), y(std::round(p.y)) {}
 

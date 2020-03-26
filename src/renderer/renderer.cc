@@ -5,8 +5,8 @@
 const static int DEFAULT_RENDERING_DRIVER = -1;
 
 Renderer::Renderer(
-    const uint16_t width,
-    const uint16_t height,
+    const screen_t width,
+    const screen_t height,
     SDL_Window* window,
     SDL_Renderer* renderer,
     SDL_Texture* texture
@@ -17,14 +17,18 @@ Renderer::Renderer(
     m_renderer(renderer),
     m_texture(texture),
     m_pixels(nullptr)
-{} 
+{
+    lock(); // RAII
+} 
 
 Renderer::~Renderer() {
+    unlock();
     SDL_DestroyTexture(m_texture);
     SDL_DestroyRenderer(m_renderer); 
     SDL_DestroyWindow(m_window);
 }
 
+/// Function locks the texture and allows pixel changing
 void Renderer::lock() {
     int pitch;
     int result = SDL_LockTexture(
@@ -39,6 +43,7 @@ void Renderer::lock() {
     }
 }
 
+/// Function unlocks the texture and allows displaying.
 void Renderer::unlock() {
     if (!m_pixels) {
         throw RendererException("SDL_UnlockTexture failed because lock was not invoked");
@@ -47,7 +52,7 @@ void Renderer::unlock() {
     m_pixels = nullptr;
 }
 
-void Renderer::fill_pixel(uint16_t x, uint16_t y, uint32_t color) {
+void Renderer::fill_pixel(screen_t x, screen_t y, color_t color) {
     /*
      * Transforming from SDL coordinate system (x left to right, y up to down)
      * to the normal one (x left to right, y down to up)
@@ -56,16 +61,18 @@ void Renderer::fill_pixel(uint16_t x, uint16_t y, uint32_t color) {
 }
 
 void Renderer::display() {
+    unlock(); // we want to display the texture
     SDL_RenderCopy(m_renderer, m_texture, nullptr, nullptr);
     SDL_RenderPresent(m_renderer);
     SDL_RenderClear(m_renderer);
+    lock(); // back to editing mode
 }
 
 
 Renderer create_renderer(
     const std::string& title,
-    uint16_t width,
-    uint16_t height,
+    screen_t width,
+    screen_t height,
     bool fullscreen_mode
 ) {
     uint32_t flags = SDL_WINDOW_SHOWN;

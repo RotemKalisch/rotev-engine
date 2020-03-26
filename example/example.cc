@@ -2,6 +2,7 @@
 
 #include <data_structures/triangle.h>
 #include <renderer/renderer.h>
+#include <renderer/z_buffer.h>
 
 int main() {
     Point p1(0.0, 0.0, 0.0);
@@ -10,11 +11,9 @@ int main() {
     Triangle triangle(p1, p2, p3);
     std::vector<Pixel> pixels = triangle.pixels();
     Renderer renderer = create_renderer("example", 1920, 984, true);
-    renderer.lock();
     for (Pixel& pixel : pixels) {
         renderer.fill_pixel(pixel.x, pixel.y, 0xFFFFFFFF);
     }
-    renderer.unlock();
     renderer.display();
 
     bool quit = false;
