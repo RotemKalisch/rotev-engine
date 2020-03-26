@@ -2,7 +2,7 @@
 
 #include <data_structures/triangle.h>
 #include <renderer/renderer.h>
-#include <renderer/z_buffer.h>
+#include <rasterization/z_buffer.h>
 
 color_t color(screen_t z) {
     color_t retval =  0xFF0000FF | ((0xFF - z) << 16);
