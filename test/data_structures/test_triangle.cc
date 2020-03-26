@@ -1,17 +1,14 @@
 #include <gtest/gtest.h>
 
+#include <algorithm>
+
 #include <data_structures/triangle.h>
 
 #define EXPECT_ITEM_IN_VECTOR(x, vec) EXPECT_TRUE(item_in_vector(x, vec))
 
 template<class T>
-bool item_in_vector(const T& item, std::vector<T> vector) {
-    for (const T& vec_item: vector) {
-        if (vec_item == item) {
-            return true;
-        }
-    }
-    return false;
+bool item_in_vector(const T& item, const std::vector<T>& vector) {
+    return vector.end() != std::find(vector.begin(), vector.end(), item);
 }
 
 TEST(Triangle, pixels_degenerate_triangle) {
