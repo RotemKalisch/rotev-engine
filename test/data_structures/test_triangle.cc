@@ -32,3 +32,20 @@ TEST(Triangle, pixels_sanity) {
     }
 }
 
+TEST(Triangle, interpolate_z_sanity) {
+    double x = 104;
+    double y = 1905;
+    double z1 = 1.7;
+    double z2 = 2.3;
+    double z3 = 3.9;
+    Point p1 (0.0, 0.0, z1);
+    Point p2 (x, 0.0, z2);
+    Point p3 (0.0, y, z3);
+    Triangle t(p1, p2, p3);
+    for (const Pixel& p: t.pixels()) {
+        double z = t.interpolate_z(p.x, p.y);
+        EXPECT_TRUE(z >= z1 && z <= z3);
+    }
+ 
+}
+

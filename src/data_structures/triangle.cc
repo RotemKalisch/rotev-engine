@@ -57,6 +57,7 @@ double Triangle::interpolate_z(screen_t x, screen_t y) {
     #define z(i) m_vertices[i].get().z
     double x_x2 = x - x(2);
     double y_y2 = y - y(2);
+    // denominator could be optimized to be calculated once per triangle change.
     double denominator = (y(1)-y(2))*(x(0)-x(2)) + (x(2)-x(1))*(y(0)-y(2));
     double w0 = (y(1)-y(2))*x_x2 + (x(2)-x(1))*y_y2;
     double w1 = (y(2)-y(0))*x_x2 + (x(0)-x(2))*y_y2;

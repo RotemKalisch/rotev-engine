@@ -1,7 +1,5 @@
 #include <gtest/gtest.h>
 
-#include <cmath>
-
 #include <data_structures/line.h>
 
 TEST(Line, point_values) {

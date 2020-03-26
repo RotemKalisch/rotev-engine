@@ -2,7 +2,7 @@ enable_testing()
 find_package(GTest REQUIRED)                                                    
 include_directories(${GTEST_INCLUDE_DIRS})                                      
 
-include_directories(data_structures)
+include_directories(data_structures rasterization)
 
 file(GLOB_RECURSE TEST_FILES *.cc)
 add_executable(tests ${TEST_FILES})                                             
