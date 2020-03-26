@@ -33,7 +33,7 @@ std::vector<Pixel> Triangle::pixels() const {
         std::swap(left_bounds, right_bounds);
     }
 
-    for (uint8_t i = 0; i < 2; ++i) {
+    for (int i = 0; i < 2; ++i) {
         for (screen_t y = vertices_sorted[i].get().y; y < vertices_sorted[i+1].get().y; ++y) {
             for (
                 screen_t x = std::round(left_bounds[i].get().get_x(y));
@@ -45,6 +45,26 @@ std::vector<Pixel> Triangle::pixels() const {
         }
     }
     return pixels;
+}
+
+double Triangle::interpolate_z(screen_t x, screen_t y) {
+    /*
+     * Barycentric Coordinates interpolation.
+     * Read more: https://codeplea.com/triangular-interpolation
+     */
+    #define x(i) m_vertices[i].get().x
+    #define y(i) m_vertices[i].get().y
+    #define z(i) m_vertices[i].get().z
+    double x_x2 = x - x(2);
+    double y_y2 = y - y(2);
+    double denominator = (y(1)-y(2))*(x(0)-x(2)) + (x(2)-x(1))*(y(0)-y(2));
+    double w0 = (y(1)-y(2))*x_x2 + (x(2)-x(1))*y_y2;
+    double w1 = (y(2)-y(0))*x_x2 + (x(0)-x(2))*y_y2;
+    double w2 = denominator - w0 - w1;
+    return (w0*z(0) + w1*z(1) + w2*z(2)) / denominator;
+    #undef x
+    #undef y
+    #undef z
 }
 
 std::array<std::reference_wrapper<const Point>, Triangle::VERTICES> Triangle::get_sorted_vertices() const {

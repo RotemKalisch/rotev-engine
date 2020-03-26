@@ -21,7 +21,11 @@ public:
      */
     std::vector<Pixel> pixels() const;
 
+    /// Function returns the z value for a pixel inside the triangle.
+    double interpolate_z(screen_t x, screen_t y);
+
 private:
+
     /// Returns the vertices of the triangle, ordered by y values.
     std::array<std::reference_wrapper<const Point>, VERTICES> get_sorted_vertices() const;
 

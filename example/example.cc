@@ -4,15 +4,28 @@
 #include <renderer/renderer.h>
 #include <renderer/z_buffer.h>
 
+color_t color(screen_t z) {
+    color_t retval =  0xFF0000FF | ((0xFF - z) << 16);
+    return retval;
+}
+
 int main() {
+    size_t width = 1920;
+    size_t height = 984;
+    Renderer renderer = create_renderer("example", width, height, true);
+    ZBuffer buffer (width, height);
     Point p1(0.0, 0.0, 0.0);
-    Point p2(0.0, 100.0, 0.0);
-    Point p3(100.0, 0.0, 0.0);
-    Triangle triangle(p1, p2, p3);
-    std::vector<Pixel> pixels = triangle.pixels();
-    Renderer renderer = create_renderer("example", 1920, 984, true);
-    for (Pixel& pixel : pixels) {
-        renderer.fill_pixel(pixel.x, pixel.y, 0xFFFFFFFF);
+    Point p2(0.0, 500.0, 255.0);
+    Point p3(500.0, 0.0, 127.0);
+    std::array<Triangle, 1> triangle = {Triangle(p1, p2, p3)};
+    for (int i = 0; i < 1; ++i) {
+        std::vector<Pixel> pixels = triangle[i].pixels();
+        for (Pixel& pixel : pixels) {
+            double z = triangle[i].interpolate_z(pixel.x, pixel.y);
+            if (buffer.render_pixel(pixel.x, pixel.y, z)) {
+                renderer.fill_pixel(pixel.x, pixel.y, color(z));
+            }
+        }
     }
     renderer.display();
 
