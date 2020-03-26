@@ -49,3 +49,15 @@ TEST(Triangle, interpolate_z_sanity) {
  
 }
 
+TEST(Triangle, interpolate_z_triangle_points) {
+    double x = 104;
+    double y = 1905;
+    double z1 = 1.7;
+    double z2 = 2.3;
+    double z3 = 3.9;
+    std::array<Point, 3> points = {Point(0.0, 0.0, z1), Point(x, 0.0, z2), Point(0.0, y, z3)};
+    Triangle t(points[0], points[1], points[2]);
+    for (int i = 0; i < 2; ++i) {
+        EXPECT_DOUBLE_EQ(points[i].z, t.interpolate_z(points[i].x, points[i].y));
+    }
+}
