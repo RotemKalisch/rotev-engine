@@ -12,8 +12,8 @@ bool item_in_vector(const T& item, const std::vector<T>& vector) {
 }
 
 TEST(Triangle, pixels_degenerate_triangle) {
-    std::shared_ptr<Point> p1 = std::make_shared<Point>(0.0, 0.0, 0.0);
-    std::shared_ptr<Point> p2 = std::make_shared<Point>(5.0, 3.0, 7.0);
+    Point p1 (0.0, 0.0, 0.0);
+    Point p2 (5.0, 3.0, 7.0);
     Triangle t(p1, p2, p2);
     EXPECT_EQ(0, t.pixels().size());
 }
@@ -21,9 +21,9 @@ TEST(Triangle, pixels_degenerate_triangle) {
 TEST(Triangle, pixels_sanity) {
     double x = 104;
     double y = 1905;
-    std::shared_ptr<Point> p1 = std::make_shared<Point>(0.0, 0.0, 0.0);
-    std::shared_ptr<Point> p2 = std::make_shared<Point>(x, 0.0, 0.0);
-    std::shared_ptr<Point> p3 = std::make_shared<Point>(0.0, y, 0.0);
+    Point p1 (0.0, 0.0, 0.0);
+    Point p2 (x, 0.0, 0.0);
+    Point p3 (0.0, y, 0.0);
     Triangle t(p1, p2, p3);
     std::vector<Pixel> pixels = t.pixels();
     for (const Pixel& pixel: pixels) {

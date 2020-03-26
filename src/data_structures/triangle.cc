@@ -5,14 +5,14 @@
 #include "triangle.h"
 
 Triangle::Triangle(
-    std::shared_ptr<const Point> p1,
-    std::shared_ptr<const Point> p2,
-    std::shared_ptr<const Point> p3
+    const Point& p1,
+    const Point& p2,
+    const Point& p3
 ) :
     m_vertices{p1, p2, p3}
 {}
 
-std::shared_ptr<const Point> Triangle::operator[](int index) {
+const Point& Triangle::operator[](int index) {
     return m_vertices[index];
 }
 
@@ -26,16 +26,20 @@ std::vector<Pixel> Triangle::pixels() const {
     Pixel middle_pixel(vertices_sorted[1]);
     Pixel bottom_pixel(vertices_sorted[2]);
 
-    std::array<Line*, 2> left_bounds = {&longest, &longest};
-    std::array<Line*, 2> right_bounds = {&upper, &lower};
+    std::array<std::reference_wrapper<Line>, 2> left_bounds = {longest, longest};
+    std::array<std::reference_wrapper<Line>, 2> right_bounds = {upper, lower};
 
     if (bottom_pixel.x > middle_pixel.x) {
         std::swap(left_bounds, right_bounds);
     }
 
     for (uint8_t i = 0; i < 2; ++i) {
-        for (uint16_t y = vertices_sorted[i].y; y < vertices_sorted[i+1].y; ++y) {
-            for (uint16_t x = std::round(left_bounds[i]->get_x(y)); x < std::round(right_bounds[i]->get_x(y)); ++x) {
+        for (uint16_t y = vertices_sorted[i].get().y; y < vertices_sorted[i+1].get().y; ++y) {
+            for (
+                uint16_t x = std::round(left_bounds[i].get().get_x(y));
+                x < std::round(right_bounds[i].get().get_x(y));
+                ++x
+            ) {
                 pixels.push_back(Pixel(x, y));
             }
         }
@@ -43,9 +47,9 @@ std::vector<Pixel> Triangle::pixels() const {
     return pixels;
 }
 
-std::array<Point, Triangle::VERTICES> Triangle::get_sorted_vertices() const {
-    std::array<Point, Triangle::VERTICES> vertices = 
-        {*m_vertices[0], *m_vertices[1], *m_vertices[2]};
+std::array<std::reference_wrapper<const Point>, Triangle::VERTICES> Triangle::get_sorted_vertices() const {
+    std::array<std::reference_wrapper<const Point>, Triangle::VERTICES> vertices = 
+        {m_vertices[0], m_vertices[1], m_vertices[2]};
     std::sort(vertices.begin(), vertices.end(),
             [](const Point& p1, const Point& p2) { return p1.y < p2.y; });
     return vertices;
