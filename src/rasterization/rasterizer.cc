@@ -24,7 +24,11 @@ namespace Rasterizer {
         }
 
         for (int i = 0; i < 2; ++i) {
-            for (screen_t y = vertices_sorted[i].get().y; y < vertices_sorted[i+1].get().y; ++y) {
+            for (
+                screen_t y = vertices_sorted[i].get().y;
+                y < static_cast<screen_t>(vertices_sorted[i+1].get().y);
+                ++y
+            ) {
                 for (
                     screen_t x = std::round(left_bounds[i].get().get_x(y));
                     x < std::round(right_bounds[i].get().get_x(y));

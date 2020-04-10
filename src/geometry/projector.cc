@@ -7,8 +7,8 @@ Projector::Projector(screen_t width, screen_t height) :
 
 Point Projector::operator()(const Point& point) const {
     return Point(
-        m_width_half * depth_projection(point.x, point.z),
-        m_height_half * depth_projection(point.y, point.z),
+        depth_projection(point.x, point.z),
+        depth_projection(point.y, point.z),
         point.z
     );
 }
@@ -22,6 +22,6 @@ Object Projector::operator()(const Object& object) const {
 }
 
 double Projector::depth_projection(double val, double z) const {
-    return val / sqrt(pow(val, 2) + pow(z, 2));
+    return val / z;
 }
 
