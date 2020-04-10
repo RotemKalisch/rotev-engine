@@ -16,7 +16,8 @@ Renderer::Renderer(
     m_window(window),
     m_renderer(renderer),
     m_texture(texture),
-    m_pixels(nullptr)
+    m_pixels(nullptr),
+    m_pixels_centered(nullptr)
 {
     lock(); // RAII
 } 
@@ -38,6 +39,7 @@ void Renderer::lock() {
             &pitch /* pitch will be stored here. as of now - it is height,
                      therefore it's not used */
         );
+    m_pixels_centered = &m_pixels[(m_height/2) * m_width + m_width / 2];
     if (result < 0 || !m_pixels) {
         throw RendererException("SDL_LockTexture failed");
     }
@@ -50,6 +52,7 @@ void Renderer::unlock() {
     }
     SDL_UnlockTexture(m_texture);
     m_pixels = nullptr;
+    m_pixels_centered = nullptr;
 }
 
 void Renderer::fill_pixel(screen_t x, screen_t y, color_t color) {
@@ -57,7 +60,7 @@ void Renderer::fill_pixel(screen_t x, screen_t y, color_t color) {
      * Transforming from SDL coordinate system (x left to right, y up to down)
      * to the normal one (x left to right, y down to up)
      */
-    m_pixels[y * m_width + x] = color;
+    m_pixels_centered[y * m_width + x] = color;
 }
 
 void Renderer::display() {

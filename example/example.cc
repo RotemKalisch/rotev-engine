@@ -16,8 +16,8 @@ int main() {
     Renderer renderer = create_renderer("example", width, height, true);
     ZBuffer buffer (width, height);
     Point p1(0.0, 0.0, 0.0);
-    Point p2(0.0, 500.0, 255.0);
-    Point p3(500.0, 0.0, 127.0);
+    Point p2(0.0, 300.0, 255.0);
+    Point p3(300.0, 0.0, 127.0);
     std::array<Triangle, 1> triangle = {Triangle(p1, p2, p3)};
     for (int i = 0; i < 1; ++i) {
         std::vector<Pixel> pixels = Rasterizer::rasterize(triangle[i]);

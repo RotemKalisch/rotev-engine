@@ -36,6 +36,7 @@ private:
      * The format is RGBA8888 - 32 bit per pixel.
      */
     color_t* m_pixels;
+    color_t* m_pixels_centered;
 };
 
 Renderer create_renderer(const std::string& title, screen_t width,
