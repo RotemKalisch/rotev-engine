@@ -3,6 +3,7 @@
 #include <data_structures/triangle.h>
 #include <renderer/renderer.h>
 #include <rasterization/z_buffer.h>
+#include <rasterization/rasterizer.h>
 
 color_t color(screen_t z) {
     color_t retval =  0xFF0000FF | ((0xFF - z) << 16);
@@ -19,7 +20,7 @@ int main() {
     Point p3(500.0, 0.0, 127.0);
     std::array<Triangle, 1> triangle = {Triangle(p1, p2, p3)};
     for (int i = 0; i < 1; ++i) {
-        std::vector<Pixel> pixels = triangle[i].pixels();
+        std::vector<Pixel> pixels = Rasterizer::rasterize(triangle[i]);
         for (Pixel& pixel : pixels) {
             double z = triangle[i].interpolate_z(pixel.x, pixel.y);
             if (buffer.render_pixel(pixel.x, pixel.y, z)) {

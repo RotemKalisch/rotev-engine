@@ -4,8 +4,8 @@
 #include <vector>
 #include <functional>
 
-#include "point.h"
-#include "pixel.h"
+#include <utils/types.h>
+#include <data_structures/point.h>
 
 struct Triangle {
 public:
@@ -15,19 +15,12 @@ public:
 
     const Point& operator[](int index);
 
-    /**
-     * Function returns all pixels inside the triangle using scan convention.
-     * Complexity is o(|pixels|)
-     */
-    std::vector<Pixel> pixels() const;
-
     /// Function returns the z value for a pixel inside the triangle.
     double interpolate_z(screen_t x, screen_t y);
-
-private:
 
     /// Returns the vertices of the triangle, ordered by y values.
     std::array<std::reference_wrapper<const Point>, VERTICES> get_sorted_vertices() const;
 
+private:
     std::array<std::reference_wrapper<const Point>, VERTICES> m_vertices;
 };
