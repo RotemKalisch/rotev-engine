@@ -10,6 +10,8 @@ public:
     double x;
     double y;
     double z;
+
+    bool operator==(const Point& other) const;
 };
 
 std::ostream& operator<<(std::ostream& os, const Point& p);

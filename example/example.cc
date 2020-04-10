@@ -1,9 +1,6 @@
 #include <iostream>
 
-#include <data_structures/triangle.h>
-#include <renderer/renderer.h>
-#include <rasterization/z_buffer.h>
-#include <rasterization/rasterizer.h>
+#include <engine/engine.h>
 
 color_t color(screen_t z) {
     color_t retval =  0xFF0000FF | ((0xFF - z) << 16);
@@ -13,22 +10,16 @@ color_t color(screen_t z) {
 int main() {
     size_t width = 1920;
     size_t height = 984;
-    Renderer renderer = create_renderer("example", width, height, true);
-    ZBuffer buffer (width, height);
-    Point p1(0.0, 0.0, 0.0);
-    Point p2(0.0, 300.0, 255.0);
-    Point p3(300.0, 0.0, 127.0);
-    std::array<Triangle, 1> triangle = {Triangle(p1, p2, p3)};
-    for (int i = 0; i < 1; ++i) {
-        std::vector<Pixel> pixels = Rasterizer::rasterize(triangle[i]);
-        for (Pixel& pixel : pixels) {
-            double z = triangle[i].interpolate_z(pixel.x, pixel.y);
-            if (buffer.render_pixel(pixel.x, pixel.y, z)) {
-                renderer.fill_pixel(pixel.x, pixel.y, color(z));
-            }
-        }
-    }
-    renderer.display();
+    Engine engine ("example", width, height, true);
+    std::vector<Point> points;
+    points.emplace_back(0.0, 0.0, 0.1);
+    points.emplace_back(0.0, 300.0, 255.0);
+    points.emplace_back(300.0, 0.0, 127.0);
+    std::vector<std::vector<size_t>> faces = {{0, 1, 2}};
+    std::vector<color_t> colors = {0xFF0000FF};
+    Object object (std::move(points), std::move(faces), std::move(colors));
+    engine.insert(std::move(object));
+    engine.display();
 
     bool quit = false;
     SDL_Event e;

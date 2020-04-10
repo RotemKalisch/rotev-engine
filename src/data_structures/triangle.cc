@@ -12,11 +12,19 @@ Triangle::Triangle(
     m_vertices{p1, p2, p3}
 {}
 
-const Point& Triangle::operator[](int index) {
+const Point& Triangle::operator[](int index) const {
     return m_vertices[index];
 }
 
-double Triangle::interpolate_z(screen_t x, screen_t y) {
+bool Triangle::operator==(const Triangle& other) const {
+    bool retval = true;
+    for (size_t i = 0; i < Triangle::VERTICES; ++i) {
+        retval &= (m_vertices[i].get() == other.m_vertices[i].get());
+    }
+    return retval;
+}
+
+double Triangle::interpolate_z(screen_t x, screen_t y) const {
     /*
      * Barycentric Coordinates interpolation.
      * Read more: https://codeplea.com/triangular-interpolation
@@ -44,3 +52,14 @@ std::array<std::reference_wrapper<const Point>, Triangle::VERTICES> Triangle::ge
             [](const Point& p1, const Point& p2) { return p1.y < p2.y; });
     return vertices;
 }
+
+std::ostream& operator<<(std::ostream& os, const Triangle& triangle) {
+    os << "{";
+    for (size_t i = 0; i < Triangle::VERTICES - 1; ++i) {
+        os << triangle[i] << ", ";
+    }
+    os << triangle[Triangle::VERTICES - 1];
+    os << "}";
+    return os;
+}
+

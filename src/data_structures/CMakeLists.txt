@@ -1,2 +1,2 @@
-add_library(data_structures pixel.cc point.cc line.cc triangle.cc)
+add_library(data_structures pixel.cc point.cc line.cc triangle.cc object.cc)
 
